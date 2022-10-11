@@ -42,6 +42,31 @@ class testtasksEntry extends entry
     }
 
     /**
+     * POST method.
+     *
+     * @access public
+     * @return void
+     */
+    public function post()
+    {
+        $fields = 'execution,product,name,build,owner,pri,begin,end,desc,status,testreport';
+        $this->batchSetPost($fields);
+
+        $control = $this->loadController('testtask', 'create');
+        $this->requireFields('execution,product,name,build,begin,end');
+
+        $control->create($_POST['product']);
+
+        $data = $this->getData();
+        if(isset($data->result) and $data->result == 'fail') return $this->sendError(400, $data->message);
+        if(isset($data->result) and !isset($data->id)) return $this->sendError(400, $data->message);
+
+        $build = $this->loadModel('testtask')->getByID($data->id);
+
+        $this->send(201, $build);
+    }
+
+    /**
      * Get testtasks of project.
      *
      * @param  int    $projectID
