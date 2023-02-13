@@ -31,7 +31,7 @@ class testtaskEntry extends entry
         $testtask->testcases = array();
         foreach($data->data->runs as $run)
         {
-            $testtask->testcases[] = $this->format($run, 'openedBy:user,openedDate:time,reviewedBy:user,reviewedDate:date,lastEditedBy:user,lastEditedDate:time');
+            $testtask->testcases[] = $this->format($run, 'openedBy:user,openedDate:time,reviewedBy:user,reviewedDate:date,lastEditedBy:user,lastEditedDate:time,deleted:bool');
         }
 
         $this->send(200, $this->format($testtask, 'begin:date,end:date,mailto:userList,owner:user,realFinishedDate:time'));
